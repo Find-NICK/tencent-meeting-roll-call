@@ -49,39 +49,48 @@
 #define endl "\n"
 #define PI acos(-1)
 using namespace std;
-int bug_count=1;
+int bug_count = 1;
 char ID[100];
-int cnt=1;
+char names[100][20];
+int num = 1;
+void play(int i) {
+	system("cls");
+	printf("%s %s", ID, names[i]);
+	cout << ID << " " << names[i];
+}
 void init() {
-
+	fstream f("name.txt");
+	while (f >> names[num]) {
+		num++;
+	}
 }
 void NUMBER(int x) {
-	BYTE key=x+0x30;
-	keybd_event(key, 0, 0 ,0);
+	BYTE key = x + 0x30;
+	keybd_event(key, 0, 0 , 0);
 	Sleep(5);
-	keybd_event(key, 0, KEYEVENTF_KEYUP,0);
+	keybd_event(key, 0, KEYEVENTF_KEYUP, 0);
 	Sleep(5);
 }
-void nextid() {
+void nextid(int i) {
 	//Ñ§ºÅÉú³É
-	ID[0]='0';
-	ID[1]='7';
-	ID[2]='0'+cnt/10;
-	ID[3]='0'+cnt%10;
+	ID[0] = '0';
+	ID[1] = '7';
+	ID[2] = '0' + i / 10;
+	ID[3] = '0' + i % 10;
 }
 void clr() {
-	int len=strlen(ID);
-	for(int i=0; i<len; i++) {
-		keybd_event(VK_BACK, 0, 0 ,0);
+	int len = strlen(ID);
+	for (int i = 0; i < len; i++) {
+		keybd_event(VK_BACK, 0, 0 , 0);
 		Sleep(1);
-		keybd_event(VK_BACK, 0, KEYEVENTF_KEYUP,0);
+		keybd_event(VK_BACK, 0, KEYEVENTF_KEYUP, 0);
 		Sleep(1);
 	}
 }
 void run() {
-	int len=strlen(ID);
-	for(int i=0; i<len; i++) {
-		NUMBER(ID[i]-'0');
+	int len = strlen(ID);
+	for (int i = 0; i < len; i++) {
+		NUMBER(ID[i] - '0');
 	}
 }
 int main() {
@@ -89,10 +98,11 @@ int main() {
 	//codes here !
 	//
 	Sleep(3000);
-	for(int i=0; i<44; i++) {
-		nextid();
-		cnt++;
-		run();	
+	init();
+	for (int i = 1; i <= num; i++) {
+		nextid(i);
+		play(i);
+		run();
 		Sleep(800);
 		clr();
 	}
